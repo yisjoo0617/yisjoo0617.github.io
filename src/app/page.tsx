@@ -1,9 +1,5 @@
-import PageLayout from "@/components/page-layout";
-
-export default async function HomePage() {
+export default function HomePage() {
   return (
-    <PageLayout>
-      <div>Home</div>
-    </PageLayout>
+    <div>Home</div>
   );
 }
