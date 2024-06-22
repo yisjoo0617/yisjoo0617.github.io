@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import "./style/globals.css";
-import { suit } from "./style/fonts/suit";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import { ThemeProvider } from "./components/theme-provider";
+import "@/style/globals.css";
+import { suit } from "@/styles/fonts/suit";
+import Header from "@/components/home/header";
+import Footer from "@/components/home/footer";
+import { ThemeProvider } from "@/components/home/theme-provider";
 
 export default function RootLayout({
  children,
@@ -11,7 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={suit.className} suppressHydrationWarning>
+    <html lang="ko" className={suit.className}>
     <body className="max-w-screen-md min-w-[320px] mx-auto">
     <ThemeProvider
       attribute="class"
@@ -25,7 +25,6 @@ export default function RootLayout({
       </main>
     </ThemeProvider>
     <Footer />
-    <GoogleAnalytics />
     </body>
     </html>
   );
