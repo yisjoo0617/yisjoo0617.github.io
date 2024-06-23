@@ -1,4 +1,4 @@
-import { format } from "@/libs/date-time";
+import { format } from "@/lib/date-time";
 
 export default function Footer() {
   return (
