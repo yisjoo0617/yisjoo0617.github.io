@@ -11,7 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={suit.className}>
+    <html lang="ko" className={suit.className} suppressHydrationWarning>
     <body className="max-w-screen-md min-w-[320px] mx-auto">
     <ThemeProvider
       attribute="class"
