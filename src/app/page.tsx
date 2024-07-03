@@ -1,5 +1,5 @@
-export default function HomePage() {
-  return (
-    <div>Home</div>
-  );
+import { redirect } from 'next/navigation';
+
+export default function Home() {
+  redirect('/blog');
 }
