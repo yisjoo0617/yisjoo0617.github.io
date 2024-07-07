@@ -22,14 +22,14 @@ export const Footer = () => {
           />
         </Link>
       </div>
-      <a href='https://hits.sh/yisjoo0617.github.io/blog/'>
-        <img
-          alt='Hits'
-          src='https://hits.sh/yisjoo0617.github.io/blog.svg?view=today-total&style=for-the-badge&label=visitors&extraCount=1248&color=db2777&labelColor=db2777'
-        />
-      </a>
+      {/*<a href='https://hits.sh/yisjoo0617.github.io/blog/'>*/}
+      {/*  <img*/}
+      {/*    alt='Hits'*/}
+      {/*    src='https://hits.sh/yisjoo0617.github.io/blog.svg?view=today-total&style=for-the-badge&label=visitors&extraCount=1248&color=db2777&labelColor=db2777'*/}
+      {/*  />*/}
+      {/*</a>*/}
       <div>
-        © 2024. <span className='font-semibold'>Doh Kim</span> all rights reserved.
+        © 2024. <span className='font-semibold'>SK</span> all rights reserved.
       </div>
     </footer>
   );
