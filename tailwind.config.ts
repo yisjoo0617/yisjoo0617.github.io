@@ -1,8 +1,7 @@
-import type { Config } from 'tailwindcss';
+import type {Config} from 'tailwindcss';
 import tailwindcssAnimate from 'tailwindcss-animate';
 import typography from '@tailwindcss/typography';
 
-// @ts-ignore
 const config: Config = {
   darkMode: ['class'],
   content: ['./src/**/*.{ts,tsx}'],
@@ -75,9 +74,11 @@ const config: Config = {
             '.callout-contents > p': {
               margin: 0,
             },
+
             code: {
               counterReset: 'line',
             },
+
             // Inline code only
             ':not(pre) > code': {
               fontWeight: 'inherit',
@@ -92,15 +93,18 @@ const config: Config = {
               padding: '0.2em 0.4em',
               overflowWrap: 'break-word',
             },
+
             'code::before': {
               content: 'none',
             },
             'code::after': {
               content: 'none',
             },
+
             'code[data-line-numbers] > [data-line]::before': {
               counterIncrement: 'line',
               content: 'counter(line)',
+
               /* Other styling */
               display: 'inline-block',
               width: '1rem',
@@ -109,12 +113,15 @@ const config: Config = {
               color: 'lightgrey',
               fontSize: '0.75rem',
             },
+
             'code[data-line-numbers-max-digits="2"] > [data-line]::before': {
               width: '1rem',
             },
+
             'code[data-line-numbers-max-digits="3"] > [data-line]::before': {
               width: '2rem',
             },
+
             pre: {
               paddingRight: 0,
               paddingLeft: 0,
@@ -122,24 +129,29 @@ const config: Config = {
               backgroundColor: 'var(--shiki-light-bg)',
               border: '1px solid #e5e7eb',
             },
+
             '.dark pre': {
               backgroundColor: 'var(--shiki-dark-bg)',
               color: 'var(--shiki-dark)',
               border: '1px solid #374151',
             },
+
             'pre > code > span': {
               paddingLeft: '1.1rem',
               paddingRight: '1rem',
             },
+
             'pre code span': {
               color: 'var(--shiki-light)',
             },
             '.dark pre code span': {
               color: 'var(--shiki-dark)',
             },
+
             '[data-highlighted-line]': {
               backgroundColor: 'rgba(253, 224, 71, 0.2)',
             },
+
             u: {
               textUnderlineOffset: '4px',
               textDecorationThickness: 1,
@@ -155,12 +167,12 @@ const config: Config = {
       },
       keyframes: {
         'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+          from: {height: '0'},
+          to: {height: 'var(--radix-accordion-content-height)'},
         },
         'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+          from: {height: 'var(--radix-accordion-content-height)'},
+          to: {height: '0'},
         },
       },
       animation: {
