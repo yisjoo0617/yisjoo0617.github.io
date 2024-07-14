@@ -1,5 +1,5 @@
 import { CategoryDetail, HeadingItem, Post, PostMatter } from '@/config/types';
-import dayjs from 'dayjs';
+import { format } from '@/lib/date-time';
 import fs from 'fs';
 import { sync } from 'glob';
 import matter from 'gray-matter';
@@ -46,7 +46,7 @@ const parsePostDetail = async (postPath: string) => {
   const { data, content } = matter(file);
   const grayMatter = data as PostMatter;
   const readingMinutes = Math.ceil(readingTime(content).minutes);
-  const dateString = dayjs(grayMatter.date).locale('ko').format('YYYY년 MM월 DD일');
+  const dateString = format(grayMatter.date, 'YYYY년 MM월 DD일');
   return { ...grayMatter, dateString, content, readingMinutes };
 };
 
