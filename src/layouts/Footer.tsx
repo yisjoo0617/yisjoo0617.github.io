@@ -29,7 +29,7 @@ export const Footer = () => {
       {/*  />*/}
       {/*</a>*/}
       <div>
-        © 2024. <span className='font-semibold'>Sam Kim</span> all rights reserved.
+        © 2024. <span className='font-semibold'>Seonkyung</span> all rights reserved.
       </div>
     </footer>
   );
