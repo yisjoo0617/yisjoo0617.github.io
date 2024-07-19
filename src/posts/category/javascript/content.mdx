@@ -1,0 +1,80 @@
+---
+title: "Hoisting 이란?"
+date: 2024-07-18
+desc: 호이스팅 완벽하게 이해하기
+thumbnail: '/posts/javascript/hoisting.png'
+---
+
+>JavaScript 호이스팅은 인터프리터가 코드를 실행하기 전에 함수, 변수, 클래스 또는 임포트(import)의 선언문을 해당 범위의 맨 위로 끌어올리는 것처럼 보이는 현상을 뜻합니다.
+>
+>[MDN Web Docs 용어 사전 정의 - 호이스팅](https://developer.mozilla.org/ko/docs/Glossary/Hoisting)
+
+즉 호이스팅(Hoisting)은 자바스크립트에서 변수를 선언하거나 함수를 정의할 때, 이를 코드 상에서 실제로 작성한 위치와 상관없이 최상위로 끌어올리는 특성을 의미합니다.
+
+<br />
+
+## 변수 호이스팅
+var, let, const 키워드에 따라 다르게 동작합니다. var로 선언된 변수는 호이스팅 되어 undefined로 초기화 되지만
+let과 const는 호이스팅이 되지 않습니다.  
+
+### var
+
+```javascript
+console.log(x); // undefined
+var x = 5;
+console.log(x); // 5
+```
+위 코드를 해석하면 아래와 같은 코드가 됩니다.
+
+```javascript
+var x;
+console.log(x); // undefined
+x = 5;
+console.log(x); // 5
+```
+var는 x 선언이 최상위로 끌어올려져서 undefined 초기화 되지만 원래 위치에 남아 실행 시점에 값을 할당됩니다.
+
+### const & let
+const 와 let의 호이스팅 동작은 동일한데 var와 달리 선언과 초기화가 분리되지 않고, 선언 전에 접근하면 참조 오류(ReferenceError)가 발생합니다. 이는 "Temporal Dead Zone(TDZ)" 때문이라고 합니다.
+
+```javascript
+console.log(y); // ReferenceError: Cannot access 'y' before initialization
+let y = 10;
+console.log(y); // 10
+```
+
+<br />
+
+## 함수 호이스팅
+함수 선언문은 호이스팅에 영향을 받지만 함수 표현식은 호이스팅에 영향을 받지 않습니다.
+
+### 함수 선언문
+```javascript
+console.log(myFunction()); // Hello, world!
+
+function myFunction() {
+  return "Hello, world!";
+}
+```
+이 경우, 함수 선언이 최상위로 끌어올려지기 때문에 함수 호출이 함수 정의보다 앞서 있어도 정상적으로 작동합니다. 위 코드를 해석하면 아래와 같은 코드가 됩니다.
+
+```javascript
+function myFunction() {
+  return "Hello, world!";
+}
+
+console.log(myFunction()); // Hello, world!
+```
+
+### 함수 표현식
+함수 표현식은 변수의 호이스팅 규칙을 따라갑니다.
+
+```javascript
+console.log(foo); // undefined
+var foo = function() {
+  return "Hello!";
+};
+console.log(foo()); // Hello!
+```
+
+
