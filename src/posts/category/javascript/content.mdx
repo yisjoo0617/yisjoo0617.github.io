@@ -14,10 +14,10 @@ thumbnail: '/posts/javascript/hoisting.png'
 <br />
 
 ## 변수 호이스팅
-var, let, const 키워드에 따라 다르게 동작합니다. var로 선언된 변수는 호이스팅 되어 undefined로 초기화 되지만
-let과 const는 호이스팅이 되지 않습니다.  
+var, let, const 키워드는 각각 따라 다르게 동작합니다.
 
 ### var
+var는 선언과 초기화가 모두 호이스팅됩니다. 초기화는 undefined로 이루어집니다.
 
 ```javascript
 console.log(x); // undefined
@@ -32,10 +32,12 @@ console.log(x); // undefined
 x = 5;
 console.log(x); // 5
 ```
-var는 x 선언이 최상위로 끌어올려져서 undefined 초기화 되지만 원래 위치에 남아 실행 시점에 값을 할당됩니다.
+var는 변수를 선언하는 부분이 최상위로 끌어올려져 undefined로 초기화되지만, 원래 위치에 남아 실행 시점에 값을 할당받습니다.
 
 ### const & let
-const 와 let의 호이스팅 동작은 동일한데 var와 달리 선언과 초기화가 분리되지 않고, 선언 전에 접근하면 참조 오류(ReferenceError)가 발생합니다. 이는 "Temporal Dead Zone(TDZ)" 때문이라고 합니다.
+let과 const는 선언은 호이스팅되지만 초기화는 호이스팅되지 않습니다. 선언 전에 접근하면 참조 오류(ReferenceError)가 발생합니다. 이는 "Temporal Dead Zone(TDZ)" 때문입니다.
+> Temporal Dead Zone(TDZ)이란?
+> 일시적인 사각지대라는 뜻으로 스코프의 시작 지점부터 초기화 시작 지점까지의 구간을 말합니다.
 
 ```javascript
 console.log(y); // ReferenceError: Cannot access 'y' before initialization
@@ -43,12 +45,22 @@ let y = 10;
 console.log(y); // 10
 ```
 
+const도 동일하게 동작합니다.
+
+```javascript
+console.log(z); // ReferenceError: Cannot access 'z' before initialization
+const z = 10;
+console.log(z); // 10
+```
+
 <br />
 
 ## 함수 호이스팅
-함수 선언문은 호이스팅에 영향을 받지만 함수 표현식은 호이스팅에 영향을 받지 않습니다.
+함수 선언문과 함수 표현식에 따라 호이스팅 동작이 다릅니다.
 
 ### 함수 선언문
+함수 선언문은 var와 동일하게 선언과 동시에 최상단으로 호이스팅됩니다.
+
 ```javascript
 console.log(myFunction()); // Hello, world!
 
@@ -56,7 +68,7 @@ function myFunction() {
   return "Hello, world!";
 }
 ```
-이 경우, 함수 선언이 최상위로 끌어올려지기 때문에 함수 호출이 함수 정의보다 앞서 있어도 정상적으로 작동합니다. 위 코드를 해석하면 아래와 같은 코드가 됩니다.
+이 경우, 함수 선언이 최상위로 끌어올려지기 때문에 함수 호출이 함수 정의보다 앞서 있어도 정상적으로 작동합니다. 위 코드는 아래와 같이 해석됩니다
 
 ```javascript
 function myFunction() {
@@ -67,7 +79,7 @@ console.log(myFunction()); // Hello, world!
 ```
 
 ### 함수 표현식
-함수 표현식은 변수의 호이스팅 규칙을 따라갑니다.
+함수 표현식은 변수의 호이스팅 규칙을 따릅니다. 이는 함수 표현식이 변수에 할당되기 때문입니다.
 
 ```javascript
 console.log(foo); // undefined
@@ -76,5 +88,11 @@ var foo = function() {
 };
 console.log(foo()); // Hello!
 ```
+
+<br />
+
+## 마무리
+코드의 동작을 예측하고 버그를 방지하기 위해 호이스팅을 이해하는게 중요해보입니다.
+var 대신 let과 const를 사용하는것이 좋고 함수 선언문보다는 함수 표현식을 사용하는 것이 코드의 가독성과 유지보수성을 높이는데 도움이 될것같습니다.
 
 
