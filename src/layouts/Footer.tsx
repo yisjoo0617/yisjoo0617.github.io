@@ -22,10 +22,10 @@ export const Footer = () => {
       {/*    />*/}
       {/*  </Link>*/}
       {/*</div>*/}
-      {/*<a href='https://hits.sh/yisjoo0617.github.io/blog/'>*/}
+      {/*<a href='https://hits.sh/sk.github.io/blog/'>*/}
       {/*  <img*/}
       {/*    alt='Hits'*/}
-      {/*    src='https://hits.sh/yisjoo0617.github.io/blog.svg?view=today-total&style=for-the-badge&label=visitors&extraCount=1248&color=db2777&labelColor=db2777'*/}
+      {/*    src='https://hits.sh/sk.github.io/blog.svg?view=today-total&style=for-the-badge&label=visitors&extraCount=1248&color=db2777&labelColor=db2777'*/}
       {/*  />*/}
       {/*</a>*/}
       <div>
