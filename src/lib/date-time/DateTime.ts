@@ -1,3 +1,3 @@
 export default interface DateTime {
-  format(date: Date | string, format: string): String;
+  format(date: Date | string, format: string): string;
 }
