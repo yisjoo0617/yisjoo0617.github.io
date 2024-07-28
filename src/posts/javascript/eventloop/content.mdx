@@ -1,0 +1,94 @@
+---
+title: "이벤트 루프란?"
+date: 2024-07-27
+desc: 이벤트루프 완벽하게 이해하기
+thumbnail: '/posts/javascript/javascript.png'
+---
+
+JavaScript는 기본적으로 싱글 스레드 언어입니다.
+싱글 스레드란 동시에 하나의 작업만 하는것을 말합니다.
+그럼에도 불구하고 JavaScript는 동시에 여러가지 작업(멀티 스레드처럼 동작)을 하는것처럼 보입니다.
+그 이유는 비동기 처리를 위한 메커니즘 덕분입니다.
+이 메커니즘을 이해하기 위해서는 이벤트 루프, 콜백 큐, 그리고 Web APIs에 대해 이해해야 합니다.
+
+전체 구조를 살펴보겠습니다.
+JavaScript 엔진에는 Heep과 Call Stack이라는 메모리 공간이 있으며 브라우저에는 멀티 스레드인 Web APIs가 존재합니다.
+![이벤트 루프 구조](/posts/javascript/eventloop/eventloop-structure.png)
+
+## 1. Heap
+동적으로 생성된 자바스크립트 객체가 저장되는 공간입니다.
+참조 변수나 함수 등이 저장됩니다.
+
+## 2. Call Stack
+코드가 실행되면 작업이 쌓이는 공간입니다.
+작업은 스택 형태로 쌓이고 순차적으로 실행됩니다. 그리고 실행이 완료되면 스택에서 제거됩니다.
+
+## 3. Callback Queue
+비동기로 실행될 작업들을 보관하는 공간입니다.
+콜 스택에서 setTimeout나 promise 같은 비동기 함수들을 만나게 되면 Web APIs를 통해 실행될 작업들이 콜백 큐로 이동합니다.
+그리고 콜 스택의 작업들이 완료되어 비어 있게 되면 이벤트 루프가 콜백 큐에서 순차적으로 작업들을 가져와 실행합니다.
+
+![콜백 큐 구조](/posts/javascript/eventloop/callback-queue.png)
+
+Callback Queue에는 세가지 종류가 있으며 각각 실행 우선순위를 가집니다.
+우선순위 : Microtask Queue > Animation Frame > Task Queue
+
+### 1) Task Queue
+setTimeout, setInterval, fetch, addEventListener 와 같이 비동기로 처리되는 함수들의 콜백 함수가 들어가는 큐 (macrotask queue 는 보통 task queue 라고 부릅니다)
+
+### 2) Microtask Queue
+promise.then, process.nextTick, MutationObserver 와 같이 우선적으로 비동기로 처리되는 함수들의 콜백 함수가 들어가는 큐
+
+### 3) AnimationFrame Queue
+requestAnimationFrame 와 같은 함수가 들어가는 큐
+
+
+## 4. Web APIs
+브라우저 환경에서는 비동기 작업을 처리하기 위해 Web APIs가 사용됩니다.
+
+## 동작 과정 예시
+- 동기적 작업 처리: 자바스크립트 엔진이 코드의 동기적 부분을 실행하며 콜 스택에 함수를 쌓고 실행합니다.
+- 비동기 함수 호출: setTimeout이나 AJAX 요청 같은 비동기 함수가 호출되면, 해당 작업은 Web APIs에 의해 처리되고, 나중에 실행될 콜백 함수가 예약됩니다.
+- 콜백 함수 대기: 비동기 작업이 완료되면, 관련 콜백 함수가 콜백 큐에 추가됩니다.
+- 이벤트 루프 작동: 이벤트 루프는 콜 스택이 비어 있는지 확인한 후, 콜백 큐에서 대기 중인 함수를 가져와 콜 스택에 넣어 실행합니다.
+
+```javascript
+console.log('Start!');
+
+setTimeout(() => {
+	console.log('Timeout!');
+}, 0);
+
+Promise.resolve('Promise!').then(res => console.log(res));
+
+console.log('End!');
+```
+위 코드의 실행 순서는 다음과 같습니다:
+
+1. 콜 스택에 console.log 코드 부분이 쌓인 뒤 실행 되어 콘솔창에 "Start!"가 출력됩니다.
+![](/posts/javascript/eventloop/eventloop-01.gif)
+
+2. setTimeout 코드가 콜 스택에 쌓이고 실행되면, 그 안의 콜백 함수가 이벤트 루프에 의해 Web API로 옮겨지고 타이머가 작동하게 됩니다.
+![](/posts/javascript/eventloop/eventloop-02.gif)
+
+3. 타이머가 종료되고 콜백 함수는 MacroTask Queue에 이벤트 루프에 의해 적재됩니다.
+Promise 코드가 콜 스택에 적재 되어 실행되고 then 핸들러의 콜백 함수가 이벤트 루프에 의해 MicroTask Queue에 적재됩니다.
+![](/posts/javascript/eventloop/eventloop-03.gif)
+
+5. console.log('End!') 코드가 실행되고 "End!" 텍스트가 콘솔창에 출력됩니다.
+![](/posts/javascript/eventloop/eventloop-04.gif)
+
+6. 작업이 모두 실행되고 Call Stack이 비워지게 되면 이벤트 핸들러가 이를 감지하여, Callback Queue에 남아있는 콜백 함수들을 가져와 Call Stack에 적재하게 됩니다.
+이때 2종류의 Queue 중 MicroTask Queue에 남아있는 콜백이 우선적으로 처리됩니다.
+![](/posts/javascript/eventloop/eventloop-05.gif)
+
+7. MicroTask Queue가 비어지면, 이제 이벤트 루프는 MacroTask Queue에 있는 콜백 함수를 Call Stack에 적재해 실행되게 됩니다.
+![](/posts/javascript/eventloop/eventloop-06.gif)
+
+## 마무리
+이러한 메커니즘 덕분에 JavaScript는 싱글 스레드 환경에서도 멀티 스레드처럼 동작할 수 있습니다.
+
+### 참고
+- https://inpa.tistory.com/entry/%F0%9F%94%84-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%A3%A8%ED%94%84-%EA%B5%AC%EC%A1%B0-%EB%8F%99%EC%9E%91-%EC%9B%90%EB%A6%AC
+- https://talkwithcode.tistory.com/89
+
