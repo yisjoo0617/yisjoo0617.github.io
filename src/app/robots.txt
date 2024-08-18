@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sk.github.io/sitemap.xml
+Sitemap: https://yisjoo0617.github.io/sitemap.xml

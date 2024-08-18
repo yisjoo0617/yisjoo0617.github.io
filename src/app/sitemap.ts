@@ -4,7 +4,7 @@ import { getSitemapPostList } from '@/lib/post';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postList = await getSitemapPostList();
-  const baseUrl = 'https://sk.github.io';
+  const baseUrl = 'https://yisjoo0617.github.io';
   return [
     {
       url: baseUrl,
