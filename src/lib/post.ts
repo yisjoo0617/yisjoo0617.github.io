@@ -6,7 +6,7 @@ import matter from 'gray-matter';
 import path from 'path';
 import readingTime from 'reading-time';
 
-const BASE_PATH = '/src/posts';
+const BASE_PATH = path.join('src', 'posts');
 const POSTS_PATH = path.join(process.cwd(), BASE_PATH);
 
 // 모든 MDX 파일 조회
@@ -31,10 +31,10 @@ const parsePost = async (postPath: string): Promise<Post> => {
 export const parsePostAbstract = (postPath: string) => {
   const filePath = postPath
     .slice(postPath.indexOf(BASE_PATH))
-    .replace(`${BASE_PATH}/`, '')
+    .replace(`${BASE_PATH}${path.sep}`, '')
     .replace('.mdx', '');
-
-  const [categoryPath, slug] = filePath.split('/');
+    
+  const [categoryPath, slug] = filePath.split(path.sep);
   const url = `/blog/${categoryPath}/${slug}`;
   const categoryPublicName = getCategoryPublicName(categoryPath);
   return { url, categoryPath, categoryPublicName, slug };
@@ -88,7 +88,7 @@ export const getAllPostCount = async () => (await getPostList()).length;
 
 export const getCategoryList = () => {
   const cgPaths: string[] = sync(`${POSTS_PATH}/*`);
-  const cgList = cgPaths.map((path) => path.split('/').slice(-1)?.[0]);
+  const cgList = cgPaths.map((p) => p.split(path.sep).slice(-1)?.[0]);
   return cgList;
 };
 
@@ -116,6 +116,7 @@ export const getCategoryDetailList = async () => {
 export const getPostDetail = async (category: string, slug: string) => {
   const filePath = `${POSTS_PATH}/${category}/${slug}/content.mdx`;
   const detail = await parsePost(filePath);
+  
   return detail;
 };
 
