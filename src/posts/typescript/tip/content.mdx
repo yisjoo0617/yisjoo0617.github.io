@@ -19,17 +19,17 @@ thumbnail: '/posts/typescript/typescript.png'
 
 ## Interface
 
-### 1. 기본적으로 interface 사용하고 예외적으로 type alias를 사용한다.
+### 1. 기본적으로 interface 사용하고 예외적으로 type alias를 사용합니다.
 
-공식 문서에서도 권장 하듯이 되도록 interface를 사용하고 재선언을 막거나(const 역할) Index Signature 기능이 필요한 경우에만 type을 사용하자
+공식 문서에서도 권장 하듯이 되도록 interface를 사용하고 재선언을 막거나(const 역할) Index Signature 기능이 필요한 경우에만 type을 사용합니다.
 
-interface를 사용하는 가장 큰 이유는 확장성 때문이다.
+interface를 사용하는 가장 큰 이유는 확장성 때문입니다.
 
-### 2. 타입을 확장할 때는 interface의 상속을 활용하자
+### 2. 타입을 확장할 때는 interface의 상속을 활용합니다.
 
-인터페이스는 합친 객체를 flatten 해서 만들어놨다가 extends를 사용할 때 저장되어 있는 flat 객체를 캐싱하여 사용하는 장점을 활용할 수 있다.
+인터페이스는 합친 객체를 flatten 해서 만들어놨다가 extends를 사용할 때 저장되어 있는 flat 객체를 캐싱하여 사용하는 장점을 활용할 수 있습니다.
 
-유니온 연산자를 활용하는 경우에는 항상 재귀적으로 속성을 병합하는 연산을 반복적으로 수행하기 때문에 성능상 불리하다.
+유니온 연산자를 활용하는 경우에는 항상 재귀적으로 속성을 병합하는 연산을 반복적으로 수행하기 때문에 성능상 불리합니다.
 
 **인터페이스 확장**
 
@@ -55,9 +55,9 @@ type Member = Agency & {
 }
 ```
 
-### 3. 인터페이스는 선언된 인터페이스들을 합쳐버린다.
+### 3. 인터페이스는 선언된 인터페이스들을 합쳐버립니다.
 
-보통 변수에 할당이 중복으로 이루어진다면 일반적으로는 나중에 선언된 할당이 이루어져야 한다. 하지만 인터페이스는 덮어쓰는 것이 아니라 같은 이름의 서로 다른 인터페이스들의 속성을 모두 병합한다.
+보통 변수에 할당이 중복으로 이루어진다면 일반적으로는 나중에 선언된 할당이 이루어져야 합니다. 하지만 인터페이스는 덮어쓰는 것이 아니라 같은 이름의 서로 다른 인터페이스들의 속성을 모두 병합합니다.
 
 **let**
 
@@ -75,7 +75,7 @@ user = {
 
 **interface**
 
-스코프 내에 User 인터페이스가 중복으로 선언되었음에도, 이를 오류로 판단하지 않는다.
+스코프 내에 User 인터페이스가 중복으로 선언되었음에도, 이를 오류로 판단하지 않습니다.
 
 ```typescript
 interface User {
@@ -92,7 +92,7 @@ const user: User = {
 }
 ```
 
-TIP. 인터페이스 병합 문제를 차단하기 위해서는 no-redeclare ESLint 룰을 적용할 수 있다.
+TIP. 인터페이스 병합 문제를 차단하기 위해서는 no-redeclare ESLint 룰을 적용할 수 있습니다.
 
 **type alias**
 
@@ -117,13 +117,13 @@ const user: User = {
 
 ## Index Signature
 
-### 1. Index Signature 보다 Mapped Types를 사용하자
+### 1. Index Signature 보다 Mapped Types를 사용합니다.
 
 `{ [Key: T]: U }` 형식으로 객체의 key와 value의 타입을 정확하게 명시할 때 사용하는 문법
 
-타입은 Index Signature를 갖는 타입에 할당할 수 있지만, 인터페이스는 할당할 수 없다.
+타입은 Index Signature를 갖는 타입에 할당할 수 있지만, 인터페이스는 할당할 수 없습니다.
 
-인터페이스에서 이를 지원하지 않는 까닭은 인터페이스는 추후 확장될 수 있는 가능성이 있기 때문이다. 인터페이스에 Index Signature를 활용하려면 명시적으로 정의해줘야 한다.
+인터페이스에서 이를 지원하지 않는 까닭은 인터페이스는 추후 확장될 수 있는 가능성이 있기 때문입니다. 인터페이스에 Index Signature를 활용하려면 명시적으로 정의해줘야 합니다.
 
 **type alias**
 
@@ -168,7 +168,7 @@ const bankMap: { [bank in Bank]: string } = {
 };
 ```
 
-나중에 Bank 타입에 새로운 은행이 추가 됐을때 index signature 를 사용했다면 bankMap에 추가하지 않는 실수를 할 위험이 있다. mapped type 을 사용했다면 컴파일 에러가 나므로 실수를 방지할 수 있다.
+나중에 Bank 타입에 새로운 은행이 추가 됐을때 index signature 를 사용했다면 bankMap에 추가하지 않는 실수를 할 위험이 있습니다. mapped type 을 사용했다면 컴파일 에러가 나므로 실수를 방지할 수 있습니다.
 
 
 <br />
@@ -176,9 +176,9 @@ const bankMap: { [bank in Bank]: string } = {
 
 ## Union Type
 
-### 1. enum보다 union type를 사용하자
+### 1. enum보다 union type를 사용합니다.
 
-- union type을 사용할 경우 번들링 시 파일의 크기가 줄어든다. (enum은 트리쉐이킹을 지원하지 않음)
+- union type을 사용할 경우 번들링 시 파일의 크기가 줄어듭니다. (enum은 트리쉐이킹을 지원하지 않음)
 
 ```typescript
 /* enum 사용 */
@@ -203,7 +203,7 @@ type Bank = '001' | '002' | '003';
 import { Bank } from './bank';// import_union.ts
 ```
 
-- union type은 enum과 달리 import를 하지 않아도 사용할 수 있다. (컴포넌트의 props 등에 지정되어 있을때)
+- union type은 enum과 달리 import를 하지 않아도 사용할 수 있습니다. (컴포넌트의 props 등에 지정되어 있을때)
 
 ```typescript
 /* enum 으로 정의한 경우 import 가 필요하다 */
@@ -214,12 +214,12 @@ import { Bank } from '../type.ts';
 <BankDetail bank='001'>
 ```
 
-- union type도 자동완성을 지원하기 때문에 enum을 사용할 이유가 없다.
-- 개인적으로 union type의 코드가 더 간결한것 같다.
+- union type도 자동완성을 지원하기 때문에 enum을 사용할 이유가 없습니다.
+- 개인적으로 union type의 코드가 더 간결한것 같습니다.
 
 ### 2. Union을 Enum처럼 객체 형태로 사용하는 방법
 
-객체 혹은 배열을 as const 로 선언한 후 타입스크립트의 문법으로 union 타입을 추출해 사용 가능하다.
+객체 혹은 배열을 as const 로 선언한 후 타입스크립트의 문법으로 union 타입을 추출해 사용 가능합니다.
 
 ```typescript
 /* enum 사용 */
@@ -250,7 +250,7 @@ type BANK = typeof Bank[keyof typeof Bank];
 
 ### 3. 사용시 주의할 점
 
-유니온 타입은 OR, 인터섹션은 AND라고 생각하기 쉬우나 인터페이스와 같은 타입을 다룰 때는 이와 같은 논리적 사고를 주의해야 한다.
+유니온 타입은 OR, 인터섹션은 AND라고 생각하기 쉬우나 인터페이스와 같은 타입을 다룰 때는 이와 같은 논리적 사고를 주의해야 합니다.
 
 **Union Type(유니온 타입)**
 
@@ -272,7 +272,7 @@ function introduce(someone: Person | Developer) {
 }
 ```
 
-타입스크립트 관점에서는 introduce() 함수를 호출하는 시점에 Person 타입이 올지 Developer 타입이 올지 알 수가 없기 때문에 어느 타입이 들어오든 간에 오류가 안 나는 방향으로 타입을 추론하게 된다.
+타입스크립트 관점에서는 introduce() 함수를 호출하는 시점에 Person 타입이 올지 Developer 타입이 올지 알 수가 없기 때문에 어느 타입이 들어오든 간에 오류가 안 나는 방향으로 타입을 추론하게 됩니다.
 
 **Intersection Type(인터섹션 타입)**
 
@@ -300,13 +300,13 @@ function introduce(someone: Person & Developer) {
 
 ## Type Guard
 
-### 1. Type Assertion보다 Type Guard를 사용하자
+### 1. Type Assertion보다 Type Guard를 사용합니다.
 
-Type Assertion은 특정 타입이라고 주장하는 것이고(as 문법 사용), Type Guard는 타입의 범위를 좁혀주는 기능이다.
+Type Assertion은 특정 타입이라고 주장하는 것이고(as 문법 사용), Type Guard는 타입의 범위를 좁혀주는 기능입니다.
 
-Type Assertion은 타입스크립트 컴파일러보다 개발자가 더 해당 타입을 잘 알고 있을 때 사용해야 한다. 가능한 Type Guard를 사용하여 코드의 안정성을 높이는 것이 좋다.
+Type Assertion은 타입스크립트 컴파일러보다 개발자가 더 해당 타입을 잘 알고 있을 때 사용해야 합니다. 가능한 Type Guard를 사용하여 코드의 안정성을 높이는 것이 좋습니다.
 
-특히 유니온 타입을 만나는 과정에서는 Type Guard로 방어하는게 중요하다.
+특히 유니온 타입을 만나는 과정에서는 Type Guard로 방어하는게 중요합니다.
 
 **Type Assertion**
 
@@ -354,9 +354,9 @@ function toString(value: Person | Product) {
 }
 ```
 
-if 문 안에서 age 가 number 이고, else 문 안에서는 string 이라는 것을 알기 때문에 toFixed, trim 메서드 사용 시 에러가 발생하지 않는다.
+if 문 안에서 age 가 number 이고, else 문 안에서는 string 이라는 것을 알기 때문에 toFixed, trim 메서드 사용 시 에러가 발생하지 않습니다.
 
-타입스크립트 3.7부터는 assert(어설션) 함수를 이용한 Type Guard가 가능해졌다.
+타입스크립트 3.7부터는 assert(어설션) 함수를 이용한 Type Guard가 가능해졌습니다.
 
 ```typescript
 // 함수의 타입에 asserts 키워드를 넣어 assert 함수를 구현한다.
