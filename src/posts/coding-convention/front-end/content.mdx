@@ -1,0 +1,230 @@
+---
+title: "프론트엔드 코딩 컨벤션"
+date: 2024-12-22
+desc: 프론트엔드 코딩 컨벤션에 대해 알아보자
+thumbnail: '/posts/coding-convention/coding-convention.png'
+---
+
+프론트엔드 개발을 하다 보면 코드 스타일이 제각각인 상황을 자주 경험하게 됩니다. 이런 경우 코드 리뷰에 시간이 더 걸리고, 유지보수에도 어려움을 겪을 수 있습니다. 이를 방지하기 위해 팀원 간의 합의된 코딩 컨벤션을 마련하는 것은 필수적입니다.
+
+이번 글에서는 제가 실제로 사내 개발 규칙을 정리하면서 경험한 내용을 바탕으로, 효율적이고 실용적인 프론트엔드 코딩 컨벤션을 소개하려고 합니다
+
+## 도구 설정
+
+### 1. ESLint(Linter)
+코드에서 잠재적인 오류나 버그를 찾아내고, coding Style 또는 best practice를 따르도록 도움을 주는 도구입니다.
+
+### 2. Prettier(Fomatter)
+코드를 자동으로 형식화하여 일관된 스타일을 유지하게 하는 도구입니다. 주로 코드 가독성을 개선하고, 여러 개발자 간에 코드 스타일을 일치시키는 데 중점을 둡니다.
+
+### 3. Prettier, ESLint 패키지
+•	eslint 8.x
+•	prettier
+•	eslint-config-airbnb-base
+•	eslint-plugin-prettier (eslint, prettier 규칙 통합)
+•	eslint-config-prettier (eslint, prettier 충돌 방지)
+•	eslint-plugin-react
+•	eslint-plugin-import (ES6의 import/export 구문을 다루는 규칙 제공)
+•	eslint-plugin-jsx-a11y (JSX에서 웹 접근성 관련 규칙을 검사)
+
+
+airbnb의 코딩스타일을 기본으로 하며 아래 규칙을 가져갑니다.
+
+| 항목 | ESLint 설정 (.eslintrc.json) | Prettier 설정 (.prettierrc) | 설명 |
+| --- | --- | --- | --- |
+| 변수 선언 | "no-var": "error" | N/A | var 변수 선언 금지 |
+| 세미콜론 사용 | "semi": ["error", "always"] | "semi": true | 세미콜론(;)은 항상 사용 |
+| 인덴트(들여쓰기) | "indent": ["error", 2] | "tabWidth": 2 | 들여쓰기는 공백(space) 2문자 |
+| 문자열 사용 방식 | "quotes": ["error", "single"] | "singleQuote": true | 작은따옴표(') 사용 |
+| 콘솔 사용 금지 | "no-console": "error" | N/A | console 사용은 경고 처리 |
+| 탭 대신 공백 사용 | "no-tabs": "error" | "useTabs": false | 탭 대신 공백 사용 |
+| 최대 줄 길이 | "max-len": ["error", 80] | "printWidth": 80 | 한 줄에 최대 80자 권장 |
+| 화살표 함수 괄호 | "arrow-parens": ["error", "always"] | "arrowParens": "always" | 화살표 함수에서 괄호를 항상 사용 |
+| Trailing Comma | "comma-dangle": ["error", "always-multiline"] | "trailingComma": "es5" | 마지막 요소에 쉼표 사용(ES5 기준) |
+| 여는 중괄호 스타일 | "brace-style": ["error", "1tbs"] | N/A | 1TBS 스타일(한 줄에 중괄호 사용) |
+| 공백 체크 | "space-before-function-paren": ["error", "never"] | "spaceBeforeFunctionParen": false | 함수 괄호 앞에 공백 금지 |
+| Unused Variables | "no-unused-vars": "error" | N/A | 사용하지 않는 변수에 경고 |
+| EOL(Newline) | "eol-last": ["error", "always"] | "endOfLine": "lf" | 파일 끝에 한 줄 추가 |
+| 구문 오류 검사 수준 | "eqeqeq": ["error", "always"] | N/A | == 대신 ===를 항상 사용 |
+
+
+
+### .eslintrc.json
+```json
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2015": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "airbnb-base",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier"
+  ],
+  "plugins": ["react", "prettier", "import", "jsx-a11y"],
+  "rules": {
+    "no-var": "error", // var 변수 선언 금지
+    "semi": ["error", "always"], // 세미콜론 항상 사용
+    "indent": ["error", 2], // 들여쓰기는 스페이스 2칸
+    "quotes": ["error", "single"], // 작은따옴표 사용
+    "no-console": "error", // 콘솔 사용은 경고
+    "no-tabs": "error", // 탭 대신 공백 사용
+    "max-len": ["error", 80], // 최대 줄 길이는 80자
+    "arrow-parens": ["error", "always"], // 화살표 함수에서 괄호 항상 사용
+    "comma-dangle": ["error", "always-multiline"], // 마지막 요소에 쉼표 사용
+    "brace-style": ["error", "1tbs"], // 1TBS 스타일 사용
+    "space-before-function-paren": ["error", "never"], // 함수 괄호 앞에 공백 금지
+    "no-unused-vars": "error", // 사용되지 않는 변수에 경고
+    "eol-last": ["error", "always"], // 파일 끝에 한 줄 추가
+    "eqeqeq": ["error", "always"], // == 대신 === 사용
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
+```
+
+### .prettierrc
+```json
+{
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "useTabs": false,
+    "printWidth": 80,
+    "arrowParens": "always",
+    "trailingComma": "es5"
+}
+```
+
+
+
+## 식별자(Naming Convention)
+•	복수형 변수는 뒤에 List를 붙입니다.
+```typescript
+// Bad
+const users
+
+// Good
+const userList
+```
+•	변수, 함수는 소문자 카멜 케이스로 선언합니다.
+•	상수는 스네이크 케이스를 활용해 대문자와 _ 를 사용해 선언합니다.
+•	Boolean 타입의 변수는 is를 접두사로 선언합니다.
+•	private 변수는 _ 를 접두사로 선언합니다.
+•	어떤 값을 리턴하는 함수는 get을 접두사로 선언합니다.
+•	컴포넌트 내부에서 직접 정의하는 이벤트 핸들러 함수는 handle을 접두사로 선언합니다.
+```typescript
+const Component = () => {
+  const handleClick = (event) => console.log(event);
+  
+  return <></>
+}
+```
+•	props 로 전달되는 핸들러 함수는 on을 접두사로 선언합니다.
+```typescript
+const ParentComponent = () => {
+  const handleClick = (event) => console.log(event);
+
+  return (
+    <Component onClick={handleClick}></Component >
+  )
+}
+
+const Component = ({onClick}) => {
+  return <></>
+}
+```
+
+## 변수 선언 키워드
+•	var 키워드를 사용하지 않고 const 와 let 을 사용하여 변수를 선언합니다.
+
+## 함수(Function)
+•	함수 선언은 특별한 경우(호이스팅돼야 하는 경우 등)가 아니라면 화살표 함수(Arrow function)를 사용합니다.
+```typescript
+// 기존 함수
+function fn(a) {
+  return a + 100;
+}
+
+// 화살표 함수
+const fn = (a) => {
+  return a + 100;
+}
+```
+
+•	함수의 본체가 하나의 식이면 중괄호 를 생략하고 암시적 return 을 사용합니다.
+```typescript
+const fn = (a) => a + 100;
+```
+
+•	함수의 매개변수가 2개 이상인 경우 객체구조분해를 사용합니다.
+```typescript
+const user = ({ name, age }) => {
+  console.log(name, age)
+};
+
+user({ name: '홍길동', age: 25 });
+```
+
+## 템플릿 문자열
+•	문자열을 생성하는 경우 template string(`) 을 사용합니다.
+```typescript
+// Good
+function sayHi(name) {
+  return `How are you, ${name}?`;
+}
+
+// Bad
+function sayHi(name) {
+  return 'How are you, ' + name + '?';
+}
+
+// Bad
+function sayHi(name) {
+  return ['How are you, ', name, '?'].join();
+}
+```
+
+## 반복문
+•	가능한 경우에는 forEach, map, filter, reduce와 같은 고차 함수를 사용하여 반복문을 간결하게 작성합니다.
+```typescript
+// Bad
+for (let i = 0; i < items.length; i++) {
+    console.log(item[i])
+}
+
+// Good
+items.forEach((item) => {
+  console.log(item)
+});
+```
+
+•	for...of와 for...in 구분하여 사용합니다.
+•	for...of : 배열이나 이터러블 객체를 순회할 때 사용합니다.
+•	for...in : 객체의 속성을 순회할 때 사용합니다.
+
+```typescript
+// 배열 순회
+for (const item of itemList) {
+  console.log(item);
+}
+
+// 객체 속성 순회
+for (const key in object) {
+  console.log(key, object[key]);
+}
+```
