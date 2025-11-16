@@ -14,6 +14,7 @@ interface Props {
 
 const TableOfContent = ({ toc }: Props) => {
   const activeIdList = useHeadingsObserver('h2, h3');
+  const activeId = activeIdList[0]; // 가장 위에 있는 목차만 가져오기
 
   return (
     <aside className='not-prose absolute -top-[200px] left-full -mb-[100px] hidden h-[calc(100%+150px)] xl:block '>
@@ -23,7 +24,7 @@ const TableOfContent = ({ toc }: Props) => {
           <ul className='text-xs'>
             {toc.map((item) => {
               const isH3 = item.indent === 1;
-              const isIntersecting = activeIdList.includes(item.link);
+              const isIntersecting = activeId === item.link;
               return (
                 <li
                   key={item.link}
