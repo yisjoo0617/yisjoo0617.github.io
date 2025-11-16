@@ -6,6 +6,7 @@ import '@/config/globals.css';
 import { Footer } from '@/layouts/Footer';
 import { Header } from '@/layouts/Header';
 import { ThemeProvider } from '@/layouts/theme/Provider';
+
 // import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 // import { Analytics } from '@vercel/analytics/react';
 // import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -35,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className='h-full scroll-my-20 scroll-smooth' suppressHydrationWarning>
-      <body className='font-pretendard flex min-h-screen flex-col'>
+    <html lang='ko' className='h-full scroll-my-20 scroll-smooth' suppressHydrationWarning>
+      <body className='flex min-h-screen flex-col font-pretendard'>
         <ThemeProvider>
           <Header />
           <main className='mt-[64px] flex flex-1 flex-col'>{children}</main>
