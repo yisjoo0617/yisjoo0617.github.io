@@ -33,7 +33,7 @@ export const parsePostAbstract = (postPath: string) => {
     .slice(postPath.indexOf(BASE_PATH))
     .replace(`${BASE_PATH}${path.sep}`, '')
     .replace('.mdx', '');
-    
+
   const [categoryPath, slug] = filePath.split(path.sep);
   const url = `/blog/${categoryPath}/${slug}`;
   const categoryPublicName = getCategoryPublicName(categoryPath);
@@ -116,17 +116,20 @@ export const getCategoryDetailList = async () => {
 export const getPostDetail = async (category: string, slug: string) => {
   const filePath = `${POSTS_PATH}/${category}/${slug}/content.mdx`;
   const detail = await parsePost(filePath);
-  
+
   return detail;
 };
 
 export const parseToc = (content: string): HeadingItem[] => {
   const regex = /^(##|###) (.*$)/gim;
   const headingList = content.match(regex);
+
+  const linkCount: { [key: string]: number } = {};
+
   return (
-    headingList?.map((heading: string) => ({
-      text: heading.replace('##', '').replace('#', ''),
-      link:
+    headingList?.map((heading: string) => {
+      const text = heading.replace('##', '').replace('#', '');
+      let link =
         '#' +
         heading
           .replace('# ', '')
@@ -134,8 +137,21 @@ export const parseToc = (content: string): HeadingItem[] => {
           .replace(/[\[\]:!@#$/%^&*()+=,.]/g, '')
           .replace(/ /g, '-')
           .toLowerCase()
-          .replace('?', ''),
-      indent: (heading.match(/#/g)?.length || 2) - 2,
-    })) || []
+          .replace('?', '');
+
+      // 중복된 링크 처리
+      if (linkCount[link] !== undefined) {
+        linkCount[link]++;
+        link = `${link}-${linkCount[link]}`;
+      } else {
+        linkCount[link] = 0;
+      }
+
+      return {
+        text,
+        link,
+        indent: (heading.match(/#/g)?.length || 2) - 2,
+      };
+    }) || []
   );
 };
