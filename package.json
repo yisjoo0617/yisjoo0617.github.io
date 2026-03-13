@@ -27,6 +27,7 @@
     "dayjs": "^1.11.10",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.319.0",
+    "mermaid": "^11.12.3",
     "next": "^14.2.21",
     "next-mdx-remote": "^6.0.0",
     "next-themes": "^0.2.1",
