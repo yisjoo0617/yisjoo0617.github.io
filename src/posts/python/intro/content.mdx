@@ -1,0 +1,143 @@
+---
+title: "JavaScript 개발자를 위한 Python 입문 가이드: 주요 차이점 중심으로"
+date: 2026-03-21
+desc: "기존 웹 개발자(JS)가 파이썬을 처음 접할 때 헷갈릴 수 있는 문법적 차이와 특징들을 정리했습니다."
+thumbnail: "/posts/python/python.png"
+---
+
+# JavaScript 개발자를 위한 Python 입문 가이드
+
+JavaScript(이하 JS)에 익숙한 웹 개발자가 Python을 처음 배우면 "어? 이게 왜 이렇게 동작하지?" 싶은 부분들이 꽤 많습니다.
+모든 언어에 공통적인 `if`, `for`의 로직은 생략하고, JS 개발자 입장에서 특히 다르게 느껴지는 **핵심 차이점** 위주로 정리했습니다.
+
+---
+
+## 1. 세미콜론과 들여쓰기 (Syntax & Scoping)
+
+JS에서 들여쓰기는 단순히 "가독성"을 위한 것이지만, Python에서는 **문법적 강제사항**입니다.
+
+*   **JS**: 중괄호 `{}`로 블록을 구분하며, 세미콜론 `;`으로 문장을 끝냅니다.
+*   **Python**: 들여쓰기(Indentation) 자체가 코드 블록을 정의합니다. 세미콜론은 사용하지 않습니다.
+
+```python
+# Python
+def greet(name):
+    if name:
+        print(f"Hello, {name}")
+    else:
+        print("Hello, Guest")
+
+# JavaScript라면?
+# function greet(name) {
+#   if (name) {
+#     console.log(`Hello, ${name}`);
+#   } else {
+#     console.log("Hello, Guest");
+#   }
+# }
+```
+
+---
+
+## 2. 변수 명명 규칙 (Naming Convention)
+
+*   **JS**: 주로 `camelCase`를 사용합니다.
+*   **Python**: 변수와 함수명에 `snake_case`를 사용하는 것이 표준(PEP 8)입니다. 클래스명은 JS와 동일하게 `PascalCase`를 씁니다.
+
+---
+
+## 3. 데이터 타입의 미묘한 차이
+
+### None vs null / undefined
+Python에는 `undefined`가 없습니다. 값이 없음을 나타내는 키워드는 오직 **`None`** 하나입니다. (JS의 `null`과 유사)
+
+### Boolean (대문자 주의)
+JS는 `true`, `false`를 소문자로 쓰지만, Python은 반드시 **`True`**, **`False`**로 첫 글자를 대문자로 써야 합니다.
+
+### Truthy & Falsy
+Python에서 빈 리스트(`[]`), 빈 딕셔너리(`{}`), 빈 문자열(`""`), 숫자 `0`은 모두 `False`로 취급됩니다. JS와 거의 비슷하지만, JS의 `[]`가 `true`인 것과는 대조적입니다.
+
+---
+
+## 4. 리스트와 딕셔너리 (Lists & Dictionaries)
+
+JS의 `Array`와 `Object`에 대응하는 개념입니다.
+
+### List (JS의 Array)
+배열과 거의 같습니다. 다만 Python 리스트는 **음수 인덱싱**과 **슬라이싱**이 매우 강력합니다.
+
+```python
+arr = [1, 2, 3, 4, 5]
+print(arr[-1])    # 5 (마지막 요소)
+print(arr[1:3])   # [2, 3] (인덱스 1부터 2까지)
+```
+
+### Dictionary (JS의 Object / Map)
+JS의 객체와 비슷하게 Key-Value 쌍을 저장하지만, Python 딕셔너리는 **`JSON`과 더 가깝게** 생겼습니다.
+주의할 점은 JS처럼 `obj.key` 방식으로 접근할 수 없고, 반드시 `dict['key']` 형식을 사용해야 합니다.
+
+```python
+user = {"name": "Antigravity", "age": 1}
+print(user["name"]) # OK
+# print(user.name)  # AttributeError! (JS와 다른 점)
+```
+
+---
+
+## 5. 함수(Function)의 특징
+
+### 인자(Arguments) 전달
+Python은 함수 호출 시 인자의 이름을 직접 지정할 수 있습니다(Keyword Arguments).
+
+```python
+def create_user(name, level=1):
+    return {"name": name, "level": level}
+
+# 순서 상관없이 이름으로 전달 가능
+create_user(level=10, name="Alice")
+```
+
+### 나머지 매개변수
+*   **JS**: `...args`
+*   **Python**: `*args` (튜플로 받음), `**kwargs` (딕셔너리로 받음)
+
+---
+
+## 6. 클래스와 self (Classes)
+
+Python의 클래스에서 가장 생소한 부분은 메서드 정의 시 첫 번째 인자로 항상 **`self`**를 명시해야 한다는 점입니다. (JS의 `this` 역할)
+
+```python
+class Developer:
+    def __init__(self, name): # 생성자 (JS의 constructor)
+        self.name = name
+
+    def introduce(self):
+        print(f"Hi, I'm {self.name}")
+
+dev = Developer("Gopher")
+dev.introduce()
+```
+
+---
+
+## 7. 패키지 관리
+
+*   **JS**: `npm` / `yarn` / `pnpm`
+*   **Python**: `pip` (보통 `requirements.txt`에 의존성을 명시)
+
+JS는 프로젝트 폴더 내에 `node_modules`가 생기지만, Python은 시스템 전역에 설치될 위험이 있어 **가상 환경(venv, conda 등)**을 사용하는 것이 필수 관례입니다.
+
+---
+
+## 요약
+
+| 특징 | JavaScript | Python |
+| :--- | :--- | :--- |
+| **블록 구분** | `{ }` | 들여쓰기 (Indentation) |
+| **변수 명명** | `camelCase` | `snake_case` |
+| **값 없음** | `null`, `undefined` | `None` |
+| **논리값** | `true`, `false` | `True`, `False` |
+| **객체 접근** | `obj.key` 가능 | `dict['key']`만 가능 |
+
+Python은 "명확한 것이 모호한 것보다 낫다"는 철학을 가지고 있어, JS보다 문법이 엄격해 보일 수 있지만 익숙해지면 훨씬 간결하고 강력한 생산성을 제공합니다.
