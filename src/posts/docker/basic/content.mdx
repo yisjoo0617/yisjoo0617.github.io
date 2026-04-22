@@ -6,18 +6,15 @@ thumbnail: '/posts/docker/docker.png'
 ---
 
 
-# Docker 핵심 개념 정리
+## Docker 핵심 개념 정리
 
-## Docker 정의
+### Docker 정의
 
 애플리케이션을 신속하게 구축, 테스트 및 배포할 수 있는 소프트웨어 플랫폼
 
-<aside>
-💡
-
-Docker 는 원래 화물 운송에서 유래한 용어로, 화물을 배에서 배로 옮기는 작업자(docker) 를 의미한다.
-
-</aside>
+<Callout>
+💡 Docker 는 원래 화물 운송에서 유래한 용어로, 화물을 배에서 배로 옮기는 작업자(docker) 를 의미한다.
+</Callout>
 
 **화물 운송과 Docker 용어 비교**
 
@@ -31,16 +28,13 @@ Docker 는 원래 화물 운송에서 유래한 용어로, 화물을 배에서 �
 
 ![image.png](/posts/docker/basic/image.png)
 
-## 컨테이너 정의
+### 컨테이너 정의
 
 리눅스 OS 위에서 격리된 환경을 제공받는 프로세스
 
-<aside>
-💡
-
-**컨테이너는 리눅스에 있는 개념으로 리눅스에서 격리된 프로세스를 말하고, Docker는 이를 네트워크 위에서 쉽게 옮기게 해주는 도구이다**
-
-</aside>
+<Callout>
+💡 **컨테이너는 리눅스에 있는 개념으로 리눅스에서 격리된 프로세스를 말하고, Docker는 이를 네트워크 위에서 쉽게 옮기게 해주는 도구이다**
+</Callout>
 
 **VM vs 컨테이너 비교**
 
@@ -53,9 +47,9 @@ Docker 는 원래 화물 운송에서 유래한 용어로, 화물을 배에서 �
 
 ![image.png](/posts/docker/basic/image%201.png)
 
-## 컨테이너 기반 기술
+### 컨테이너 기반 기술
 
-### Namespace
+#### Namespace
 
 - 같은 OS를 사용하지만, **각자 독립된 환경처럼 보이게 만드는 격리 기술**
 - 실제로는 커널을 **공유**하지만 프로세스는 **자기 것만 존재한다고 인식**
@@ -71,11 +65,11 @@ Docker 는 원래 화물 운송에서 유래한 용어로, 화물을 배에서 �
 | UTS | hostname과 NIS 도메인 이름을 컨테이너별로 독립적으로 설정 |
 | User | 사용자 및 그룹 ID를 분리하여 컨테이너 내부 root를 호스트와 분리 |
 
-### cgroup(Control Group)
+#### cgroup(Control Group)
 
 - **프로세스가 사용하는 시스템 자원(CPU, 메모리, 디스크, 네트워크 등)을 제한·관리하는 기능**
 
-## Linux Netfilter Subsystem
+### Linux Netfilter Subsystem
 
 - 리눅스 커널 내부의 네트워크 관련 프레임워크
 - 다양한 네트워크 관련 연산을 핸들러 형태로 구현할 수 있도록 훅(hook)을 제공 (허용/차단/수정 가능)
@@ -91,23 +85,20 @@ Docker 는 원래 화물 운송에서 유래한 용어로, 화물을 배에서 �
 - **iptables**
     - Netfilter를 사용자가 제어하는 대표 도구
 
-<aside>
-💡
-
-도커 사용시
-
+<Callout>
+💡 도커 사용시
 - 커널의 기능들을 편리하게 사용 가능
 - Docker는 자동으로 **iptables 규칙 생성**
 - 컨테이너 포트 포워딩 = Netfilter NAT 사용
-</aside>
+</Callout>
 
 ![image.png](/posts/docker/basic/image%202.png)
 
 ---
 
-# 컨테이너, 이미지, 볼륨 사용법
+## 컨테이너, 이미지, 볼륨 사용법
 
-## 용어 정리
+### 용어 정리
 
 ![image.png](/posts/docker/basic/image%203.png)
 
@@ -117,9 +108,9 @@ Docker 는 원래 화물 운송에서 유래한 용어로, 화물을 배에서 �
 - **Repository:** 특정 Image들의 **버전 묶음 공간**
 - **Tag:** Image의 **버전 식별자** (ex. nginx:latest)
 
-## 1. 컨테이너
+### 1. 컨테이너
 
-### 컨테이너 라이프 사이클
+#### 컨테이너 라이프 사이클
 
 - **create**: 컨테이너 껍데기 생성
 - **start**: 생성된 컨테이너 실행
@@ -172,18 +163,15 @@ Docker 는 원래 화물 운송에서 유래한 용어로, 화물을 배에서 �
 | 이미지 다운로드 | docker image pull nginx:latest |
 | 레이어 확인 | docker image history nginx |
 
-### **이미지 배포 & 이동**
+### 이미지 배포 & 이동
 
 ![image.png](/posts/docker/basic/image%206.png)
 
-### 흐름
+#### 흐름
 
-<aside>
-💡
-
-**tag → push → pull**
-
-</aside>
+<Callout>
+💡 **tag → push → pull**
+</Callout>
 
 - **tag**: 이미지에 “이름/버전 라벨” 붙이기
 - **push**: 내 로컬 이미지를 레지스트리(Docker Hub 등)에 업로드
@@ -201,20 +189,17 @@ Docker 는 원래 화물 운송에서 유래한 용어로, 화물을 배에서 �
 | 로컬 이미지 확인 | docker image ls |  |
 | 레이어 확인 | docker image history nginx:latest | 레이어 구조/용량 확인 |
 
-## 3. volume
+### 3. volume
 
-### 볼륨이 필요한 이유
+#### 볼륨이 필요한 이유
 
 컨테이너에서 생성/수정한 파일은 기본적으로 CoW(Copy-on-Write) 레이어에 저장됨.
 
 → 컨테이너가 없어지면 데이터가 지속되지 않음
 
-<aside>
-💡
-
-컨테이너가 삭제되거나 비정상일 때도 업로드한 파일을 안전하게 보존하는 방법은?
-
-</aside>
+<Callout>
+💡 컨테이너가 삭제되거나 비정상일 때도 업로드한 파일을 안전하게 보존하는 방법은?
+</Callout>
 
 ![image.png](/posts/docker/basic/image%207.png)
 
@@ -261,13 +246,13 @@ docker container run -it --name app1 --volumes-from dataOnlyCon busybox sh
 
 ---
 
-# Docker Network 정리
+## Docker Network 정리
 
-## Docker Network 개요
+### Docker Network 개요
 
 Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네트워크 모델**을 사용한다.
 
-### CNM (Container Network Model)
+#### CNM (Container Network Model)
 
 - Docker에서 제안한 **오픈소스 컨테이너 네트워크 모델**
 - 컨테이너 네트워크의 기본 구성 요소를 정의
@@ -361,23 +346,20 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 
 ---
 
-# Dockerfile 정리
+## Dockerfile 정리
 
-## 개념
+### 개념
 
 - 컨테이너 실행에 필요한 **환경과 실행 방식을 코드로 정의**
 - 애플리케이션 실행 환경을 **표준화**하는 역할
 
 ![image.png](/posts/docker/basic/image%2014.png)
 
-## Dockerfile 지시어
+### Dockerfile 지시어
 
-<aside>
-💡
-
-지시어는 대/소문자 상관없지만 관례적으로 대문자로 사용
-
-</aside>
+<Callout>
+💡 지시어는 대/소문자 상관없지만 관례적으로 대문자로 사용
+</Callout>
 
 ### FROM
 
@@ -400,12 +382,11 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 
 ![image.png](/posts/docker/basic/image%2017.png)
 
-<aside>
+<Callout>
 💡
-
 - **Shell:** 명령어가 복잡하거나 파이프라인 등이 필요할 때 사용
 - **Exec:** 기본적인 명령 실행에 권장
-</aside>
+</Callout>
 
 ### COPY / ADD
 
@@ -433,12 +414,9 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 
 ![image.png](/posts/docker/basic/image%2020.png)
 
-<aside>
-💡
-
-`ENV <key>=<value>` 형식 권장 (최신 문법, 한번에 환경변수 여러개 지정 가능)
-
-</aside>
+<Callout>
+💡 `ENV <key>=<value>` 형식 권장 (최신 문법, 한번에 환경변수 여러개 지정 가능)
+</Callout>
 
 ### LABEL
 
@@ -478,12 +456,9 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 
 ![image.png](/posts/docker/basic/image%2025.png)
 
-<aside>
-💡
-
-PID 1은 컨테이너가 시작될 때 가장 먼저 실행되고 종료되면 컨테이너도 함께 종료되는 메인 프로세스입니다. ENTRYPOINT는 PID1 을 지정하는 명령어입니다.
-
-</aside>
+<Callout>
+💡 PID 1은 컨테이너가 시작될 때 가장 먼저 실행되고 종료되면 컨테이너도 함께 종료되는 메인 프로세스입니다. ENTRYPOINT는 PID1 을 지정하는 명령어입니다.
+</Callout>
 
 ### [예제]
 
@@ -551,13 +526,13 @@ docker container run myapp other.jar
 
 ---
 
-# Compose
+## Compose
 
-## 개념
+### 개념
 
 - 여러 개의 컨테이너를 연동하는 경량의 오케스트레이션 툴
 
-## 사용법
+### 사용법
 
 docker-compose.yml 파일을 구성하여 실행
 
@@ -575,7 +550,7 @@ docker-compose.yml 파일을 구성하여 실행
 
 ![image.png](/posts/docker/basic/image%2026.png)
 
-## 명령어
+### 명령어
 
 | 명령어 | 설명 |
 | --- | --- |
@@ -591,22 +566,16 @@ docker-compose.yml 파일을 구성하여 실행
 
 ---
 
-# 교육 중 어려웠던 포인트
+## 학습 중 어려웠던 포인트
 
 - PID1, Namespace와 같은 새로운 리눅스 개념을 배우고 Docker와 어떻게 연결되는 내용인지 이해하는데 어려움이 있었다.
 - 컨테이너 네트워크는 개별 개념(IP, 포트, NAT)은 알고 있었지만, Docker 환경에서 이 개념들이 어떻게 함께 동작하는지 이해하는 데 어려움이 있었다.
 
 ---
 
-# 실습에서 자주 만난 에러와 배운점
+## 실습에서 자주 만난 에러와 배운점
 
 - 컨테이너 실행 시 기본적으로 bridge 네트워크로 동작하는데 포트 포워딩을 설정하지 않아 외부(퍼블릭 주소)에서 접근할 수 없었던 사례가 있었다.
 - docker run에서 IMAGE의 앞 뒤로 도커 옵션과 컨테이너 안 명령이 나뉘는데 옵션 순서를 잘못 작성해 컨테이너의 상태가 예상과 달랐던 사례가 있었다.
-
----
-
-# 이후 목표
-
-다수의 컨테이너를 안정적으로 배포·운영하기 위해 Kubernetes를 학습하고 서비스에 단계적으로 도입하는 것을 목표로 한다.
 
 ---
