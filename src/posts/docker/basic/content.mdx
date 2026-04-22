@@ -6,7 +6,7 @@ thumbnail: '/posts/docker/docker.png'
 ---
 
 
-## Docker 핵심 개념 정리
+## 1. Docker 핵심 개념 정리
 
 ### Docker 정의
 
@@ -96,10 +96,9 @@ thumbnail: '/posts/docker/docker.png'
 
 ---
 
-## 컨테이너, 이미지, 볼륨 사용법
+## 2. 도커 주요 구성 요소 및 사용법
 
-### 용어 정리
-
+### 주요 용어 정리
 ![image.png](/posts/docker/basic/image%203.png)
 
 - **Image:** 컨테이너를 만들기 위한 **실행 템플릿(설계도)**
@@ -108,10 +107,9 @@ thumbnail: '/posts/docker/docker.png'
 - **Repository:** 특정 Image들의 **버전 묶음 공간**
 - **Tag:** Image의 **버전 식별자** (ex. nginx:latest)
 
-### 1. 컨테이너
+### 컨테이너 (Container)
 
-#### 컨테이너 라이프 사이클
-
+#### 컨테이너 라이프 사이클 (Life Cycle)
 - **create**: 컨테이너 껍데기 생성
 - **start**: 생성된 컨테이너 실행
 - **stop**: 정상 종료
@@ -134,12 +132,10 @@ thumbnail: '/posts/docker/docker.png'
     ```bash
     docker exec -it web /bin/bash
     ```
-    
 
-## 2. Image
+### 이미지 (Image)
 
-### UFS(Union File System)과 Layer
-
+#### 이미지 레이어 구조 (UFS)
 ![image.png](/posts/docker/basic/image%205.png)
 
 - **Image**
@@ -163,8 +159,7 @@ thumbnail: '/posts/docker/docker.png'
 | 이미지 다운로드 | docker image pull nginx:latest |
 | 레이어 확인 | docker image history nginx |
 
-### 이미지 배포 & 이동
-
+#### 이미지 배포 및 이동
 ![image.png](/posts/docker/basic/image%206.png)
 
 #### 흐름
@@ -177,9 +172,8 @@ thumbnail: '/posts/docker/docker.png'
 - **push**: 내 로컬 이미지를 레지스트리(Docker Hub 등)에 업로드
 - **pull**: 레지스트리에서 이미지 다운로드
     - **이미 있는 레이어는 재사용**하고, **없는 레이어만 다운로드**
-    
 
-### 명령어
+#### 이미지 명령어 활용 예시
 
 | **목적** | **명령어 예시** | **포인트** |
 | --- | --- | --- |
@@ -189,10 +183,9 @@ thumbnail: '/posts/docker/docker.png'
 | 로컬 이미지 확인 | docker image ls |  |
 | 레이어 확인 | docker image history nginx:latest | 레이어 구조/용량 확인 |
 
-### 3. volume
+### 볼륨 (Volume)
 
 #### 볼륨이 필요한 이유
-
 컨테이너에서 생성/수정한 파일은 기본적으로 CoW(Copy-on-Write) 레이어에 저장됨.
 
 → 컨테이너가 없어지면 데이터가 지속되지 않음
@@ -207,8 +200,9 @@ thumbnail: '/posts/docker/docker.png'
 2. **⭐️ volume**
 3. **tmpfs mount**
 
-### **3-1) Bind mount (호스트 디렉토리 직접 마운트)**
+#### 데이터 영속성 관리 (Mount 종류)
 
+**3-1) Bind mount (호스트 디렉토리 직접 마운트)**
 - **호스트 디렉토리 ↔ 컨테이너 디렉토리**를 직접 연결
 - 호스트 파일을 수정하면 컨테이너에서도 바로 반영되는 구조
 
@@ -216,8 +210,7 @@ thumbnail: '/posts/docker/docker.png'
 docker container run -v <호스트 경로>:<컨테이너 마운트 경로>
 ```
 
-### **3-2) Docker Volume (도커가 관리하는 저장소)**
-
+**3-2) Docker Volume (도커가 관리하는 저장소)**
 - HOST 시스템의 /var/lib/docker/volumes 하위에 볼륨이 생성됨
 - **⭐️ 가장 추천하는 방법**
 
@@ -228,8 +221,7 @@ docker container run에  -v <컨테이너 마운트 경로>
 docker volume create <이름>
 ```
 
-### **3-3) 데이터 전용 컨테이너**
-
+**3-3) 데이터 전용 컨테이너**
 - 실행 안 해도 생성만 되어 있어도 볼륨 공유됨
 - 다른 컨테이너에서 --volumes-from dataOnlyCon 로 공유
     
@@ -246,23 +238,20 @@ docker container run -it --name app1 --volumes-from dataOnlyCon busybox sh
 
 ---
 
-## Docker Network 정리
+## 3. Docker 네트워크 (Network)
 
-### Docker Network 개요
-
+### 도커 네트워크 개요 (CNM)
 Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네트워크 모델**을 사용한다.
 
 #### CNM (Container Network Model)
-
 - Docker에서 제안한 **오픈소스 컨테이너 네트워크 모델**
 - 컨테이너 네트워크의 기본 구성 요소를 정의
 
 ![image.png](/posts/docker/basic/image%209.png)
 
-## Docker 네트워크 종류
+### 네트워크 드라이버 종류
 
-### 1. bridge network (기본 네트워크)
-
+#### 1. bridge network (기본 네트워크)
 - Docker 설치 시 기본으로 생성됨
 - 호스트의 물리 NIC가 `docker0` 가상 브리지에 연결됨
 - 컨테이너 실행 시 자동 할당
@@ -279,8 +268,7 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 
 ![image.png](/posts/docker/basic/image%2010.png)
 
-### 2. host network
-
+#### 2. host network
 - 호스트의 네트워크를 **컨테이너와 공유**
 - 네트워크 네임스페이스 격리 해제와 동일
 - 브리지 네트워크를 거치지 않음
@@ -291,16 +279,14 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 
 ![image.png](/posts/docker/basic/image%2011.png)
 
-### 3. none network
-
+#### 3. none network
 - 네트워크를 전혀 사용하지 않는 컨테이너
 - loopback 인터페이스만 존재
 - 완전 격리 환경
 - 보안 테스트
 - 네트워크 불필요한 작업
 
-### 4. custom bridge network (사용자 정의 네트워크)
-
+#### 4. custom bridge network (사용자 정의 네트워크)
 - 기본 bridge보다 **권장되는 방식**
 - Linux bridge가 호스트에 생성됨
 - 컨테이너 이름 기반 DNS 제공
@@ -310,8 +296,7 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 
 ![image.png](/posts/docker/basic/image%2012.png)
 
-### 5. overlay network
-
+#### 5. overlay network
 - 멀티 도커 호스트 간 네트워크
 - 단일 호스트 bridge 네트워크의 한계를 해결
 - 여러 서버의 컨테이너를 하나의 네트워크처럼 연결
@@ -319,7 +304,7 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 
 ![image.png](/posts/docker/basic/image%2013.png)
 
-## 네트워크 종류 요약
+#### 네트워크 종류 요약
 
 | 네트워크 | 특징 | 사용 목적 |
 | --- | --- | --- |
@@ -329,7 +314,7 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 | user-defined bridge | DNS 지원, 설정 유연 | 실무 권장 |
 | overlay | 멀티 호스트 | Swarm / Kubernetes |
 
-## 네트워크 명령어
+#### 네트워크 명령어
 
 | 명령어 | 설명 |
 | --- | --- |
@@ -346,23 +331,21 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 
 ---
 
-## Dockerfile 정리
+## 4. Dockerfile과 이미지 빌드
 
-### 개념
-
-- 컨테이너 실행에 필요한 **환경과 실행 방식을 코드로 정의**
+### Dockerfile 개념
+컨테이너 실행에 필요한 **환경과 실행 방식을 코드로 정의**
 - 애플리케이션 실행 환경을 **표준화**하는 역할
 
 ![image.png](/posts/docker/basic/image%2014.png)
 
-### Dockerfile 지시어
+### Dockerfile 주요 지시어 (Instructions)
 
 <Callout>
 💡 지시어는 대/소문자 상관없지만 관례적으로 대문자로 사용
 </Callout>
 
 ### FROM
-
 - 베이스 이미지 선택 (어떤 OS/런타임 위에서 실행할지 결정)
 - 모든 Dockerfile의 시작점으로 가장 위에 작성
 - 태그명 생략시 latest로 적용
@@ -370,7 +353,6 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 ![image.png](/posts/docker/basic/image%2015.png)
 
 ### RUN
-
 - 빌드 시 필요한 작업 실행
 - RUN 남발 금지 → 빌드 속도와 이미지 용량이 커짐
 - RUN 스텝마다 cache에 저장하는데 --no-cache 옵션으로 캐시 사용 불가 설정 가능
@@ -389,7 +371,6 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 </Callout>
 
 ### COPY / ADD
-
 - 파일 또는 디렉토리를 복사
 
 ![image.png](/posts/docker/basic/image%2018.png)
@@ -409,7 +390,6 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 | 권장 사용 | ⭕ (권장) | ❌ (특수한 경우만) |
 
 ### ENV
-
 - 컨테이너 실행 시 사용할 환경 변수 정의
 
 ![image.png](/posts/docker/basic/image%2020.png)
@@ -419,7 +399,6 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 </Callout>
 
 ### LABEL
-
 - 이미지에 메타데이터(설명 정보)를 추가
 - 이미지에 작성자 정보, 버전과 같은 부가 정보를 제공할 때 사용
 - docker image inspect 명령으로 확인 가능
@@ -427,7 +406,6 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 ![image.png](/posts/docker/basic/image%2021.png)
 
 ### EXPOSE
-
 - 컨테이너의 공개 포트 번호를 지정할 때 사용
 - 도커 엔진에게 실행중인 컨테이너가 Listen하고 있는 PORT를 알려주며, -p 옵션을 사용하여 어떤 PORT를 호스트에 공개할지를 정의
 - 프로토콜을 명시하지 않으면 디폴트인 TCP 프로토콜이 적용됨
@@ -435,13 +413,11 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 ![image.png](/posts/docker/basic/image%2022.png)
 
 ### VOLUME
-
 - 지정한 이름의 마운트 포인트를 작성하고, 호스트나 그 외 다른 컨테이로부터 볼륨의 외부 마운트를 수행
 
 ![image.png](/posts/docker/basic/image%2023.png)
 
 ### CMD
-
 - Dockerfile 내에 1번만 기술할 수 있고, 여러 번 기술되면 마지막 CMD 명령이 적용됨
 - ENTRYPOINT 명령과 함께 사용되면 ENTRYPOINT의 파라미터값으로 전달됨
 - 컨테이너 실행 시 오버라이드 할 수 있음
@@ -449,7 +425,6 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 ![image.png](/posts/docker/basic/image%2024.png)
 
 ### ENTRYPOINT
-
 - 컨테이너 시작 시 자동으로 실행되는 명령을 지정할 때 사용
 - CMD 명령과 함께 사용되면 CMD 명령의 값이 ENTRYPOINT 명령의 파라미터로 전달 됨
 - CMD 명령과 다르게 컨테이너 실행 시 오버라이드 할 수 없음
@@ -460,7 +435,7 @@ Docker는 컨테이너 간 및 외부와의 통신을 위해 **표준화된 네�
 💡 PID 1은 컨테이너가 시작될 때 가장 먼저 실행되고 종료되면 컨테이너도 함께 종료되는 메인 프로세스입니다. ENTRYPOINT는 PID1 을 지정하는 명령어입니다.
 </Callout>
 
-### [예제]
+#### CMD vs ENTRYPOINT 활용 예제
 
 1. **CMD 단독 사용 예제**
 
@@ -526,14 +501,12 @@ docker container run myapp other.jar
 
 ---
 
-## Compose
+## 5. Docker Compose
 
-### 개념
+### Compose 개요
+여러 개의 컨테이너를 연동하는 경량의 오케스트레이션 툴
 
-- 여러 개의 컨테이너를 연동하는 경량의 오케스트레이션 툴
-
-### 사용법
-
+### Compose 구성 및 사용법
 docker-compose.yml 파일을 구성하여 실행
 
 **구성**
@@ -550,7 +523,7 @@ docker-compose.yml 파일을 구성하여 실행
 
 ![image.png](/posts/docker/basic/image%2026.png)
 
-### 명령어
+### Compose 주요 명령어
 
 | 명령어 | 설명 |
 | --- | --- |
@@ -566,15 +539,13 @@ docker-compose.yml 파일을 구성하여 실행
 
 ---
 
-## 학습 중 어려웠던 포인트
+## 6. 학습 회고 및 트러블슈팅
 
+### 학습 중 어려웠던 포인트
 - PID1, Namespace와 같은 새로운 리눅스 개념을 배우고 Docker와 어떻게 연결되는 내용인지 이해하는데 어려움이 있었다.
-- 컨테이너 네트워크는 개별 개념(IP, 포트, NAT)은 알고 있었지만, Docker 환경에서 이 개념들이 어떻게 함께 동작하는지 이해하는 데 어려움이 있었다.
+- 컨테이너 네트워크는 개별 개념(IP, 포트, NAT)은 알고 있었지만, Docker 환경에서 이 개념들이 어떻게 함께 동작하는지 이해하는데 어려움이 있었다.
 
----
-
-## 실습에서 자주 만난 에러와 배운점
-
+### 실습 에러 로그 및 해결 방법
 - 컨테이너 실행 시 기본적으로 bridge 네트워크로 동작하는데 포트 포워딩을 설정하지 않아 외부(퍼블릭 주소)에서 접근할 수 없었던 사례가 있었다.
 - docker run에서 IMAGE의 앞 뒤로 도커 옵션과 컨테이너 안 명령이 나뉘는데 옵션 순서를 잘못 작성해 컨테이너의 상태가 예상과 달랐던 사례가 있었다.
 
